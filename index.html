@@ -1,124 +1,129 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#6d3df5">
-  <meta name="description" content="UMKM Design Maker - buat pamflet promosi dari HP dalam hitungan detik.">
-  <title>UMKM Design Maker</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6d3df5">
+<meta name="description" content="UMKM Pamflet Maker - buat pamflet promosi otomatis dari HP.">
+<title>UMKM Pamflet Maker</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="appbar">
-    <div class="logo">U</div>
-    <div class="brand"><b>UMKM</b><span>Design Maker</span></div>
-    <button class="icon-btn" id="helpBtn" aria-label="Cara pakai">?</button>
-  </header>
+<header class="topbar">
+  <div class="logo">U</div>
+  <div class="brand"><b>UMKM Pamflet</b><small>Design Maker</small></div>
+  <button id="helpBtn" class="icon">?</button>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="sparkle">✨</div>
-      <h1>Buat Pamflet Aesthetic<br>untuk Usaha Anda</h1>
-      <p>Cukup masukkan teks & foto.<br>Kami bantu susun desainnya.</p>
-    </section>
+<main>
+<section class="hero">
+  <div class="hero-badge">✨ DESAIN OTOMATIS</div>
+  <h1>Foto + Data →<br>Pamflet Siap Jualan</h1>
+  <p>Anda tidak perlu jago desain. Sistem akan memilih layout yang paling cocok.</p>
+</section>
 
-    <div class="steps">
-      <div class="step active"><i>1</i><span>Input</span></div>
-      <div class="line"></div>
-      <div class="step"><i>2</i><span>Template</span></div>
-      <div class="line"></div>
-      <div class="step"><i>3</i><span>Selesai</span></div>
+<section class="card" id="inputCard">
+  <div class="section-head">
+    <div><span class="num">1</span><div><b>Masukkan data produk</b><small>Isi yang Anda punya saja</small></div></div>
+  </div>
+
+  <label>Nama produk / usaha
+    <input id="title" maxlength="42" placeholder="Contoh: Sambal Bu Siti">
+  </label>
+
+  <label>Kalimat promosi <span class="optional">opsional</span>
+    <textarea id="subtitle" maxlength="110" rows="3" placeholder="Contoh: Pedasnya nampol, bikin makan makin lahap!"></textarea>
+    <small class="counter" id="counter">0/110</small>
+  </label>
+
+  <div class="grid2">
+    <label>Harga <span class="optional">opsional</span>
+      <input id="price" placeholder="Rp15.000">
+    </label>
+    <label>WhatsApp <span class="optional">opsional</span>
+      <input id="phone" inputmode="tel" placeholder="0812 3456 7890">
+    </label>
+  </div>
+
+  <label>Foto produk</label>
+  <div class="upload" id="upload">
+    <input id="photo" type="file" accept="image/*" hidden>
+    <div id="empty">
+      <div class="camera">＋</div><b>Tambah foto produk</b><small>Ambil dari galeri HP</small>
     </div>
+    <div id="photoState" class="hidden">
+      <img id="productImage" alt="Foto produk">
+      <button id="removePhoto" class="remove">×</button>
+      <button id="replacePhoto" class="replace">↥ Ganti Foto</button>
+    </div>
+  </div>
 
-    <section id="inputStep" class="page-section">
-      <div class="section-heading">
-        <span class="section-icon">▣</span>
-        <div><h2>Informasi Produk</h2><p>Isi yang Anda tahu saja.</p></div>
-      </div>
+  <button class="main-btn" id="generateBtn">✨ Buatkan Pamflet Otomatis <span>→</span></button>
+</section>
 
-      <label>Nama Produk / Usaha
-        <input id="title" placeholder="Contoh: Keripik Pisang Coklat" maxlength="45">
-      </label>
+<section class="card hidden" id="analyzeCard">
+  <div class="analyze">
+    <div class="bot">✦</div>
+    <h2>Sistem sedang membuat desain...</h2>
+    <p>Menganalisis produk dan memilih layout yang cocok.</p>
+    <div class="progress"><i id="progress"></i></div>
+    <div class="checks">
+      <span id="c1">○ Mengenali jenis produk</span>
+      <span id="c2">○ Menganalisis foto</span>
+      <span id="c3">○ Memilih layout</span>
+      <span id="c4">○ Menyusun pamflet</span>
+    </div>
+  </div>
+</section>
 
-      <label>Kalimat Promosi
-        <textarea id="subtitle" maxlength="110" rows="4" placeholder="Contoh: Renyah, manis, dan bikin nagih!"></textarea>
-        <small id="counter">0/110</small>
-      </label>
+<section class="card hidden" id="resultCard">
+  <div class="result-title">
+    <div><span class="num">3</span><div><b>Pilih hasil terbaik</b><small>Kami membuat 3 alternatif untuk Anda</small></div></div>
+  </div>
+  <div class="analysis-pill" id="analysisText">✓ Layout dipilih otomatis</div>
 
-      <div class="grid2">
-        <label>Harga
-          <input id="price" placeholder="Rp15.000">
-        </label>
-        <label>No. WhatsApp
-          <input id="phone" inputmode="tel" placeholder="0812 3456 7890">
-        </label>
-      </div>
+  <div id="variants" class="variants"></div>
 
-      <label>Foto Produk</label>
-      <div class="upload" id="uploadBox">
-        <input id="photo" type="file" accept="image/*" hidden>
-        <div id="uploadEmpty">
-          <div class="camera">＋</div>
-          <b>Tambah Foto Produk</b>
-          <span>Pilih foto dari galeri HP</span>
-        </div>
-        <div id="uploadPreview" class="upload-preview hidden">
-          <img id="productImg" alt="Foto produk">
-          <button id="removePhoto" class="remove">×</button>
-          <button id="changePhoto" class="change">↥ Ganti Foto</button>
-        </div>
-      </div>
+  <div class="selected-preview">
+    <div class="preview-head"><b>Preview hasil pilihan</b><small>1080 × 1350 px • 4:5</small></div>
+    <div class="canvas-wrap"><canvas id="canvas" width="1080" height="1350"></canvas></div>
+  </div>
 
-      <div class="tip">
-        <span>💡</span>
-        <div><b>Tips foto</b><p>Gunakan foto produk yang terang dan jelas agar hasil desain lebih maksimal.</p></div>
-      </div>
+  <div class="actions">
+    <button id="download" class="primary">↓ Unduh PNG</button>
+    <button id="share" class="share">↗ Bagikan</button>
+  </div>
+  <button id="edit" class="secondary wide">✎ Ubah Data</button>
+  <button id="again" class="secondary wide">🎲 Buat 3 Pilihan Lagi</button>
+</section>
 
-      <button class="cta" id="nextBtn">Lanjut ke Template <span>→</span></button>
-    </section>
+<section class="card info">
+  <b>💡 Anda tidak perlu memilih layout</b>
+  <p>Mesin desain akan mempertimbangkan nama produk, isi promosi, foto, harga, dan jenis usaha untuk menentukan susunan pamflet.</p>
+</section>
+</main>
 
-    <section id="templateStep" class="page-section hidden">
-      <div class="back-row"><button id="backInput" class="back">←</button><div><h2>Pilih Template</h2><p>Geser dan pilih yang paling cocok.</p></div></div>
-      <div class="chips">
-        <button class="chip active">Semua</button><button class="chip">Kuliner</button><button class="chip">Minuman</button><button class="chip">Fashion</button>
-      </div>
-      <div id="templates" class="template-list"></div>
-      <button class="cta" id="makeBtn">✨ Buat Pamflet Otomatis</button>
-    </section>
+<nav class="bottom">
+  <span class="active">⌂<small>Buat</small></span>
+  <span>▦<small>Template</small></span>
+  <span>▣<small>Hasil</small></span>
+  <span>♙<small>Akun</small></span>
+</nav>
 
-    <section id="resultStep" class="page-section hidden">
-      <div class="back-row"><button id="backTemplate" class="back">←</button><div><h2>Preview Pamflet</h2><p>Siap untuk dipromosikan.</p></div></div>
-      <div class="result-card">
-        <canvas id="canvas" width="1080" height="1350"></canvas>
-      </div>
-      <div class="actions">
-        <button class="secondary" id="changeTemplate">↗ Ganti Template</button>
-        <button class="secondary" id="editText">✎ Edit Teks</button>
-      </div>
-      <div class="share-card">
-        <h3>Simpan / Bagikan</h3>
-        <p>Unduh pamflet atau bagikan langsung.</p>
-        <button class="download" id="downloadBtn">↓ Unduh PNG</button>
-        <button class="wa" id="waBtn">◉ Bagikan ke WhatsApp</button>
-        <button class="ig" id="igBtn">◎ Bagikan ke Instagram</button>
-        <button class="secondary full" id="shareBtn">↗ Lainnya</button>
-      </div>
-      <div class="success">🎉 <b>Pamflet berhasil dibuat!</b><br><span>Desain siap digunakan untuk promosi produk Anda.</span></div>
-    </section>
-  </main>
+<dialog id="helpDialog"><div class="dialog">
+<button id="closeHelp" class="close">×</button>
+<h2>Cara membuat pamflet</h2>
+<ol>
+<li>Masukkan nama produk.</li>
+<li>Tambahkan harga, WhatsApp, dan foto.</li>
+<li>Tekan <b>Buatkan Pamflet Otomatis</b>.</li>
+<li>Sistem memilih layout dan membuat 3 alternatif.</li>
+<li>Pilih yang paling disukai lalu unduh.</li>
+</ol>
+<button id="okHelp" class="main-btn">Siap, Mulai!</button>
+</div></dialog>
 
-  <nav class="bottom-nav">
-    <button class="nav active"><span>⌂</span>Beranda</button>
-    <button class="nav" id="navTemplate"><span>▦</span>Template</button>
-    <button class="nav" id="navResult"><span>▣</span>Hasil Saya</button>
-    <button class="nav"><span>♙</span>Akun</button>
-  </nav>
-
-  <dialog id="helpDialog">
-    <div class="dialog-content"><button class="close" id="closeHelp">×</button><h2>Cara Pakai</h2><ol><li>Isi nama produk, promo, harga, dan WhatsApp.</li><li>Masukkan foto produk dari galeri.</li><li>Pilih template yang Anda suka.</li><li>Tekan <b>Buat Pamflet Otomatis</b>.</li><li>Unduh atau bagikan hasilnya.</li></ol><button class="cta" id="okHelp">Siap, Mulai!</button></div>
-  </dialog>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

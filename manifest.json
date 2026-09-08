@@ -1,9 +1,9 @@
 {
-  "name":"UMKM Design Maker",
-  "short_name":"UMKM Design",
+  "name":"UMKM Pamflet Maker",
+  "short_name":"UMKM Pamflet",
   "start_url":"./",
   "display":"standalone",
-  "background_color":"#faf9fd",
+  "background_color":"#f8f7fb",
   "theme_color":"#6d3df5",
   "icons":[]
 }
